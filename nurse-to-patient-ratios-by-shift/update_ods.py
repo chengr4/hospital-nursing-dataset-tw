@@ -1,4 +1,4 @@
-import requests
+from curl_cffi import requests
 from bs4 import BeautifulSoup
 import os
 import re
@@ -11,12 +11,7 @@ BASE_URL = "https://www.nhi.gov.tw"
 TARGET_DIR = "."  # 存放檔案的資料夾
 HISTORY_FILE = "download_history.json"  # 記錄下載歷史
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-    "Accept-Language": "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
-    "Referer": "https://www.nhi.gov.tw/",
-    "Connection": "keep-alive",
-    "Upgrade-Insecure-Requests": "1",
+    "Referer": "https://www.nhi.gov.tw/"
 }
 
 def load_history():
@@ -37,7 +32,7 @@ def download_ods():
     history = load_history()
     
     try:
-        response = requests.get(URL, headers=HEADERS, timeout=30)
+        response = requests.get(URL, headers=HEADERS, timeout=30, impersonate="chrome")
         response.raise_for_status()
     except Exception as e:
         print(f"無法存取目標網頁: {e}")
@@ -111,7 +106,7 @@ def download_ods():
                 print(f"正在下載...")
                 
                 try:
-                    f_resp = requests.get(file['url'], headers=HEADERS, timeout=30)
+                    f_resp = requests.get(file['url'], headers=HEADERS, timeout=30, impersonate="chrome")
                     f_resp.raise_for_status()
                     file_path = os.path.join(TARGET_DIR, file_name)
                     with open(file_path, 'wb') as f:
