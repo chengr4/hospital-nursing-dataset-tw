@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import os
 import re
 import json
+import sys
 
 # 配置資訊
 URL = "https://www.nhi.gov.tw/ch/cp-15138-b2fee-3669-1.html"
@@ -30,15 +31,27 @@ def download_ods():
     # 0. 載入歷史紀錄
     history = load_history()
     
-    response = requests.get(URL, headers=HEADERS)
+    try:
+        response = requests.get(URL, headers=HEADERS, timeout=30)
+        response.raise_for_status()
+    except Exception as e:
+        print(f"無法存取目標網頁: {e}")
+        sys.exit(1)
+
     response.encoding = 'utf-8'
     soup = BeautifulSoup(response.text, 'html.parser')
     
     # 1. 找出所有項目並提取年份
-    items = soup.select('div.download_list ul li') 
+    items = soup.select('div.download_list ul li') # 根據實際 HTML 層級調整
     if not items:
+        # 備用選擇器：針對截圖中顯示的結構
         items = soup.find_all('li', text=re.compile(r'\d+年')) 
+        # 如果 li 裡面包著文字，BS4 可能需要特定寫法，改用抓取所有 li 再過濾
         items = [li for li in soup.find_all('li') if '各醫院三班護病比' in li.get_text()]
+
+    if not items:
+        print("錯誤：在網頁上找不到任何資料項，可能是網頁結構已改變。")
+        sys.exit(1)
 
     target_files = []
     max_year = 0
@@ -54,8 +67,8 @@ def download_ods():
                 href = ods_link.get('href')
                 full_url = BASE_URL + href if href.startswith('/') else href
                 
-                # 處理檔名與版本
-                clean_title = text.split('（')[0].strip()
+                # 建立檔名，例如：114年9月_三班護病比.ods
+                clean_title = text.split('（')[0].strip() # 移除括號後的日期
                 file_name = f"{clean_title}.ods"
                 
                 # 提取更新日期作為版本號 (若無括號日期，預設為 'initial')
@@ -70,6 +83,10 @@ def download_ods():
                 })
                 if year > max_year:
                     max_year = year
+
+    if not target_files:
+        print("錯誤：找到項目但找不到任何 ODS 下載連結。")
+        sys.exit(1)
 
     # 2. 顯示最新年份
     print(f"偵測到最新年份為：{max_year}年")
@@ -89,7 +106,8 @@ def download_ods():
                 print(f"正在下載...")
                 
                 try:
-                    f_resp = requests.get(file['url'], headers=HEADERS)
+                    f_resp = requests.get(file['url'], headers=HEADERS, timeout=30)
+                    f_resp.raise_for_status()
                     file_path = os.path.join(TARGET_DIR, file_name)
                     with open(file_path, 'wb') as f:
                         f.write(f_resp.content)
