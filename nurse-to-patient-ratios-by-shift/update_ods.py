@@ -61,7 +61,7 @@ def download_ods():
         match = re.search(r'(\d+)年', text)
         if match:
             year = int(match.group(1))
-            ods_link = li.find('a', string=re.compile(r'ods', re.I))
+            ods_link = li.find('a', string=re.compile(r'ods', re.I)) # type: ignore
             
             if ods_link:
                 href = ods_link.get('href')
