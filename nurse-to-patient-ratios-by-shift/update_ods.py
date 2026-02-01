@@ -5,11 +5,11 @@ import re
 import json
 import sys
 
-# 配置資訊
 URL = "https://www.nhi.gov.tw/ch/cp-15138-b2fee-3669-1.html"
 BASE_URL = "https://www.nhi.gov.tw"
-TARGET_DIR = "."  # 存放檔案的資料夾
-HISTORY_FILE = "download_history.json"  # 記錄下載歷史
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+TARGET_DIR = SCRIPT_DIR  # 存放檔案的資料夾
+HISTORY_FILE = os.path.join(SCRIPT_DIR, "download_history.json")  # 記錄下載歷史
 HEADERS = {
     "Referer": "https://www.nhi.gov.tw/"
 }
@@ -45,9 +45,10 @@ def download_ods():
     items = soup.select('div.download_list ul li') # 根據實際 HTML 層級調整
     if not items:
         # 備用選擇器：針對截圖中顯示的結構
-        items = soup.find_all('li', text=re.compile(r'\d+年')) 
+        items = [li for li in soup.find_all('li') if li.get_text() and re.search(r'\d+年', li.get_text())]
         # 如果 li 裡面包著文字，BS4 可能需要特定寫法，改用抓取所有 li 再過濾
-        items = [li for li in soup.find_all('li') if '各醫院三班護病比' in li.get_text()]
+        if not items:
+            items = [li for li in soup.find_all('li') if '各醫院三班護病比' in li.get_text()]
 
     if not items:
         print("錯誤：在網頁上找不到任何資料項，可能是網頁結構已改變。")
