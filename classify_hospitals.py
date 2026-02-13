@@ -60,6 +60,7 @@ CODE_TO_CITY = {
     "0901": "臺北市",  # 中山醫院, 郵政醫院, 西園醫院
     "1101": "臺北市",  # Cathay (國泰), Mackay (馬偕)
     "1301": "臺北市",  # Wanfang (萬芳), TMU (台北醫大)
+    "1401": "臺北市",  # 仁濟醫院
     "1533": "臺北市",  # 大安醫院 (大安 is Taipei district)
     
     # New Taipei City
@@ -67,6 +68,7 @@ CODE_TO_CITY = {
     "0931": "新北市",  # Board hospitals (板英 = 板橋)
     "1131": "新北市",  # Far Eastern (亞東), Tzu Chi (慈濟), Mackay Tamsui (淡水)
     "1231": "新北市",  # Cathay (耕莘)
+    "1441": "新北市",  # 仁馨醫院
     "1531": "新北市",  # Board hospitals (板新, 板橋)
     
     # Keelung City
@@ -95,9 +97,11 @@ CODE_TO_CITY = {
     "1535": "苗栗縣",  # 協和, 大千, 通霄光田
     
     # Taichung City
+    "0517": "臺中市",  # Military Taichung (國軍中清分)
     "0536": "臺中市",  # Military Taichung
     "0617": "臺中市",  # Taichung Veterans
     "0936": "臺中市",  # Kuang Tien (光田), Tung's (童綜合)
+    "1303": "臺中市",  # CMU (中國兒童醫, 中醫大市醫, 亞洲大學附)
     "1317": "臺中市",  # CSMU (中山附醫), CMU (中國附醫)
     "1517": "臺中市",  # Cheng Ching (澄清)
     
@@ -182,111 +186,29 @@ CODE_TO_CITY = {
 }
 
 # Specific hospital to city mapping for precise classification
+# Only use this for hospitals that cannot be classified by code or name patterns
 SPECIFIC_HOSPITALS = {
-    # Military hospitals and specific locations
-    "三軍總醫院": "臺北市",
-    "三總北投": "臺北市",
-    "三總松山": "臺北市",
+    # Note: Most hospitals are classified by their NHI institution codes.
+    # Only add entries here if absolutely necessary (not covered by codes or patterns).
+    
+    # Major hospitals that might need explicit mapping
     "台北長庚": "臺北市",
-    "國泰醫院": "臺北市",
-    "和信治癌": "臺北市",
-    "新光醫院": "臺北市",
-    "振興醫院": "臺北市",
-    "臺北榮總": "臺北市",
-    "郵政醫院": "臺北市",
-    "臺北市聯醫": "臺北市",
-    "西園醫院": "臺北市",
-    "臺安醫院": "臺北市",
-    "復興醫院": "臺北市",
-    "康寧醫院": "臺北市",
-    "馬偕兒童醫": "臺北市",
-    "仁濟醫院": "臺北市",
-    "中山醫院": "臺北市",
-    "台安": "臺北市",
-    
-    # New Taipei City
-    "亞東": "新北市",
-    "輔大附醫": "新北市",
-    "部台北": "新北市",
-    "部八里": "新北市",
-    "樂生療養院": "新北市",
-    "瑞芳礦工醫": "新北市",
-    "仁馨醫院": "新北市",
-    "元復醫院": "新北市",
-    "板新醫院": "新北市",
-    "板英醫院": "新北市",
-    "宏恩醫院": "新北市",
-    "蘆洲長安醫": "新北市",
-    "永和耕莘": "新北市",
-    
-    # Taoyuan
     "林口長庚": "桃園市",
     "長庚醫院": "桃園市",
-    "桃療": "桃園市",
-    "天晟醫院": "桃園市",
-    "宏其婦幼": "桃園市",
     
-    # Hsinchu
+    # Hospitals needing specific classification
+    "輔大附醫": "新北市",
     "東元法人": "新竹市",
     "湖口仁慈": "新竹縣",
     "竹北新仁醫": "新竹縣",
-    
-    # Yilan
     "員山榮民醫": "宜蘭縣",
     "蘇澳榮民醫": "宜蘭縣",
-    
-    # Miaoli
     "李綜合苑裡": "苗栗縣",
-    
-    # Taichung
-    "中山附醫": "臺中市",
-    "中國附醫": "臺中市",
-    "中國兒童醫": "臺中市",
-    "中醫大市醫": "臺中市",
-    "林新醫院": "臺中市",
-    "烏日林新醫": "臺中市",
-    "光田綜合": "臺中市",
-    "亞洲大學附": "臺中市",
-    "茂盛醫院": "臺中市",
-    "大甲李綜合": "臺中市",
-    "東勢農民醫": "臺中市",
-    "國軍中清分": "臺中市",
-    
-    # Changhua
-    "員榮醫院": "彰化縣",
-    "員郭": "彰化縣",
-    
-    # Yunlin  
     "中國北港醫": "雲林縣",
-    
-    # Chiayi
-    "慶昇醫院": "嘉義市",
-    "部嘉南療養": "嘉義縣",
-    "部朴子醫院": "嘉義縣",
-    
-    # Tainan
-    "部新營醫院": "臺南市",
-    "南市立醫院": "臺南市",
-    
-    # Kaohsiung
-    "高醫": "高雄市",
-    "國軍左營": "高雄市",
-    "天主教聖功": "高雄市",
-    "市立凱旋": "高雄市",
-    "市立旗津醫": "高雄市",
-    "七賢脊椎外": "高雄市",
-    "民眾醫院": "高雄市",
-    "活力得中山": "高雄市",
-    
-    # Pingtung
     "潮州安泰醫": "屏東縣",
-    "屏基醫院": "屏東縣",
     "屏榮龍泉分": "屏東縣",
     "屏安醫療社": "屏東縣",
-    
-    # Hualien
     "北榮鳳林": "花蓮縣",
-    "吉安醫院": "花蓮縣",
     "豐濱原住民": "花蓮縣",
 }
 
