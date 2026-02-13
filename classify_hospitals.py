@@ -500,6 +500,12 @@ def main():
             for hospital in sorted(unclassified):
                 f.write(f"{hospital}\n")
         print(f"\nFull list of unclassified hospitals saved to: unclassified_hospitals.txt")
+    else:
+        # Remove unclassified file if all hospitals are classified
+        import os
+        if os.path.exists("unclassified_hospitals.txt"):
+            os.remove("unclassified_hospitals.txt")
+        print("\n✓ All hospitals successfully classified!")
 
 if __name__ == "__main__":
     main()
