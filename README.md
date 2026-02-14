@@ -6,13 +6,14 @@
 
 ## 醫院地區分類 / Hospital Regional Classification
 
-執行 `classify_hospitals.py` 可將所有醫院依照地區分類：
+執行 `hospital-classification/classify_hospitals.py` 可將所有醫院依照地區分類：
 
 ```bash
+cd hospital-classification
 python3 classify_hospitals.py
 ```
 
-輸出檔案：`hospitals_by_region.json`
+輸出檔案：`hospital-classification/hospitals_by_region.json`
 
 ### 分類結構 / Classification Structure
 

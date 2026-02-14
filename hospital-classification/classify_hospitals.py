@@ -278,7 +278,7 @@ HOSPITAL_PATTERNS = {
 
 def extract_hospitals_from_ods():
     """Extract all unique hospital names and their codes from ODS files."""
-    ods_files = glob.glob("nurse-to-patient-ratios-by-shift/*.ods")
+    ods_files = glob.glob("../nurse-to-patient-ratios-by-shift/*.ods")
     hospital_to_code = {}
     
     for file_path in sorted(ods_files):
