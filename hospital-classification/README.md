@@ -6,6 +6,7 @@ This folder contains scripts and data for classifying Taiwan hospitals by geogra
 
 - **`classify_hospitals.py`**: Main classification script
 - **`hospitals_by_region.json`**: Output file with hospitals classified by region and city
+- **`hospital_to_region.json`**: Mapping of hospital names to regions (reverse mapping)
 - **`hospital_codes.json`**: Mapping of hospital names to NHI institution codes
 
 ## Usage
@@ -15,9 +16,11 @@ cd hospital-classification
 python3 classify_hospitals.py
 ```
 
-## Output Format
+## Data Formats
 
-The script generates `hospitals_by_region.json` with the following structure:
+### `hospitals_by_region.json`
+
+Maps regions to cities to hospitals:
 
 ```json
 {
@@ -28,6 +31,20 @@ The script generates `hospitals_by_region.json` with the following structure:
   "中部": { ... },
   "南部": { ... },
   "東部": { ... }
+}
+```
+
+### `hospital_to_region.json`
+
+Maps hospital names to their regions:
+
+```json
+{
+  "台大醫院": "北部",
+  "中山附醫": "中部",
+  "高雄長庚": "南部",
+  "慈濟醫院": "東部",
+  ...
 }
 ```
 
