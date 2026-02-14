@@ -13,9 +13,13 @@ cd hospital-classification
 python3 classify_hospitals.py
 ```
 
-輸出檔案：`hospital-classification/hospitals_by_region.json`
+輸出檔案：
+- `hospital-classification/hospitals_by_region.json` - 地區 → 縣市 → 醫院
+- `hospital-classification/hospital_to_region.json` - 醫院 → 地區
 
 ### 分類結構 / Classification Structure
+
+#### `hospitals_by_region.json`
 
 醫院分為四大區域：北部、中部、南部、東部，並依縣市細分：
 
@@ -38,6 +42,20 @@ python3 classify_hospitals.py
     "花蓮縣": ["慈濟醫院", "..."],
     ...
   }
+}
+```
+
+#### `hospital_to_region.json`
+
+從醫院名稱查詢所屬地區：
+
+```json
+{
+  "台大醫院": "北部",
+  "中山附醫": "中部",
+  "高雄長庚": "南部",
+  "慈濟醫院": "東部",
+  ...
 }
 ```
 
