@@ -66,4 +66,6 @@ python3 classify_hospitals.py
 - **南部 (Southern)**: 185 家醫院，涵蓋 7 個縣市
 - **東部 (Eastern)**: 21 家醫院，涵蓋 2 個縣市
 
-**總計**: 447 家醫院 (100% 分類完成)
+## References
+
+- https://www.nhi.gov.tw/ch/cp-15138-b2fee-3669-1.html
